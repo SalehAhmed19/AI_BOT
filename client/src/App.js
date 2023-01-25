@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { Configuration, OpenAIApi } from "openai";
+
 function App() {
   const apiKey = process.env.REACT_APP_MY_ENVIRONMENT_VARIABLE;
   const configuration = new Configuration({
@@ -19,9 +20,10 @@ function App() {
         model: "text-davinci-003",
         prompt: prompt,
         temperature: 0.5,
-        max_tokens: 100,
+        max_tokens: 200,
       });
       setResult(response.data.choices[0].text);
+      setPrompt("");
     } catch (error) {
       console.error(error);
     }
@@ -29,16 +31,36 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <textarea
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        placeholder="Write your prompt..."
-      ></textarea>
-      <button onClick={handleClick} disabled={loading || prompt.length === 0}>
-        {loading ? "Generating..." : "Generate"}
-      </button>
-      <pre>{result}</pre>
+    <div className="">
+      <h2 className="text-3xl font-bold text-center mt-5">AI BOT</h2>
+      <p className="text-center">Develop by Saleh Ahmed Mahin</p>
+      <div className="border mx-20 my-10 p-5 rounded-lg">
+        <pre style={{ whiteSpace: "pre-wrap" }} className="mockup-code px-5">
+          {result}
+        </pre>
+      </div>
+      <div className="flex justify-center btm-nav w-1/2 mx-auto my-5">
+        <div className="form-control w-1/2">
+          <div className="input-group my-10">
+            <input
+              type="text"
+              value={prompt}
+              onChange={(e) => {
+                setPrompt(e.target.value);
+              }}
+              placeholder="Write your prompt..."
+              className="input input-bordered w-full"
+            />
+            <button
+              onClick={handleClick}
+              disabled={loading || prompt.length === 0}
+              className="btn btn-square w-36"
+            >
+              {loading ? "Generating..." : "Generate"}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
