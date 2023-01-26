@@ -3,6 +3,7 @@ import "./App.css";
 import Typewriter from "typewriter-effect";
 import { Configuration, OpenAIApi } from "openai";
 import { BounceLoader } from "react-spinners";
+import ai from "./Assets/logo.jpeg";
 function App() {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -33,7 +34,7 @@ function App() {
           max_tokens: 200,
         });
         setResult(response.data.choices[0].text);
-        setPrompt("");
+        // setPrompt("");
       } catch (error) {
         console.error(error);
       }
@@ -71,7 +72,60 @@ function App() {
             <p className="text-center text-[#fff]">
               <small>&copy; All Rights Reserved by BugsBytes</small>
             </p>
-            <div className="mx-20 m-5 rounded-lg">
+            <div className="px-10">
+              {prompt.length > 0 && (
+                <div className="chat chat-end">
+                  <div className="chat-image avatar">
+                    <div className="w-10 rounded-full">
+                      <img src="https://placeimg.com/192/192/people" />
+                    </div>
+                  </div>
+                  <div className="chat-header text-[#fff]">You</div>
+                  <div className="chat-bubble">{prompt}</div>
+                </div>
+              )}
+              {result.length > 0 && prompt.length > 0 && (
+                <div className="chat chat-start">
+                  <div className="chat-image avatar">
+                    <div className="w-10 rounded-full">
+                      <img src={ai} alt="" />
+                    </div>
+                  </div>
+                  <div className="chat-header text-[#fff]">Obi-Wan Kenobi</div>
+                  <div className="chat-bubble bg-[#000]">
+                    <pre
+                      style={{ whiteSpace: "pre-wrap" }}
+                      className="mockup-code px-5 bg-[#000] text-sm"
+                    >
+                      {result}
+                    </pre>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="flex justify-center btm-nav w-1/2 mx-auto my-5 bg-transparent">
+              <div className="form-control w-3/4 mx-auto">
+                <div className="input-group my-10">
+                  <input
+                    type="text"
+                    value={prompt}
+                    onChange={(e) => {
+                      setPrompt(e.target.value);
+                    }}
+                    placeholder="Write your prompt..."
+                    className="input input-bordered w-full"
+                  />
+                  <button
+                    onClick={handleClick}
+                    // disabled={aiLoading}
+                    className="btn btn-primary btn-square w-36 text-[#fff]"
+                  >
+                    {aiLoading ? "Sending..." : "Send"}
+                  </button>
+                </div>
+              </div>
+            </div>
+            {/* <div className="mx-20 m-5 rounded-lg">
               <pre
                 style={{ whiteSpace: "pre-wrap" }}
                 className="mockup-code px-5 bg-[#000]"
@@ -100,7 +154,7 @@ function App() {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
