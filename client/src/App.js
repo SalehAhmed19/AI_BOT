@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Typewriter from "typewriter-effect";
 import { Configuration, OpenAIApi } from "openai";
-import { BounceLoader } from "react-spinners";
+import { BounceLoader, RiseLoader } from "react-spinners";
 import ai from "./Assets/logo.jpeg";
 function App() {
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ function App() {
           max_tokens: 200,
         });
         setResult(response.data.choices[0].text);
-        // setPrompt("");
+        setPrompt("");
       } catch (error) {
         console.error(error);
       }
@@ -73,33 +73,41 @@ function App() {
               <small>&copy; All Rights Reserved by BugsBytes</small>
             </p>
             <div className="px-10">
-              {prompt.length > 0 && (
-                <div className="chat chat-end">
-                  <div className="chat-image avatar">
-                    <div className="w-10 rounded-full">
-                      <img src="https://placeimg.com/192/192/people" />
-                    </div>
-                  </div>
-                  <div className="chat-header text-[#fff]">You</div>
-                  <div className="chat-bubble">{prompt}</div>
-                </div>
-              )}
-              {result.length > 0 && prompt.length > 0 && (
+              {result.length > 0 && (
                 <div className="chat chat-start">
                   <div className="chat-image avatar">
                     <div className="w-10 rounded-full">
                       <img src={ai} alt="" />
                     </div>
                   </div>
-                  <div className="chat-header text-[#fff]">Obi-Wan Kenobi</div>
-                  <div className="chat-bubble bg-[#000]">
+                  <div className="chat-header text-[#fff]">AIBOT</div>
+                  <div className="chat-bubble bg-[#000] flex justify-center items-center">
                     <pre
                       style={{ whiteSpace: "pre-wrap" }}
                       className="mockup-code px-5 bg-[#000] text-sm"
                     >
-                      {result}
+                      {aiLoading ? (
+                        <RiseLoader
+                          size={10}
+                          className="py-5"
+                          color="#C4D3EF"
+                        />
+                      ) : (
+                        result
+                      )}
                     </pre>
                   </div>
+                </div>
+              )}
+              {prompt.length > 0 && (
+                <div className="chat chat-end">
+                  <div className="chat-image avatar">
+                    <div className="w-10 rounded-full">
+                      <img src="https://placeimg.com/192/192/people" alt="" />
+                    </div>
+                  </div>
+                  <div className="chat-header text-[#fff]">You</div>
+                  <div className="chat-bubble">{prompt}</div>
                 </div>
               )}
             </div>
